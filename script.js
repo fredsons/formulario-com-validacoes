@@ -1,0 +1,61 @@
+const form = document.querySelector('form');
+const nome = document.querySelector('#nome');
+const email = document.querySelector('#email');
+const assunto = document.querySelector('#assunto');
+const mensagem = document.querySelector('#mensagem');
+const errorMessages = document.querySelectorAll('.error-message')
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  resetErrors()
+  validadeInputs();
+})
+
+function setError(input, errorMessage) {
+  const errorMessageElement = input.nextElementSibling
+  errorMessageElement.textContent = errorMessage;
+  input.parentElement.classList.add('error')
+}
+
+function resetErrors() {
+  errorMessages.forEach((msg) => {
+    msg.textContent = ''
+  })
+  nome.parentElement.classList.remove('error')
+  email.parentElement.classList.remove('error')
+  assunto.parentElement.classList.remove('error')
+  mensagem.parentElement.classList.remove('error')
+
+}
+
+function validadeInputs() {
+  const nomeValue = nome.value.trim();
+  const emailValue = email.value.trim();
+  const assuntoValue = assunto.value.trim();
+  const mensagemValue = mensagem.value.trim();
+
+  if (nomeValue === '') {
+    setError(nome, 'Nome não pode ficar em branco')
+  }
+
+  if (emailValue === '') {
+    setError(email, 'Email não pode ficar em branco')
+
+  } else if (!isValidEmail(email)) {
+    setError(email, 'Email inválido')
+  }
+
+  if (assuntoValue === '') {
+    setError(assunto, 'Assunto nao pode ficar em branco')
+  }
+
+  if (mensagemValue === '') {
+    setError(mensagem, 'Mensagem nao pode ficar em branco')
+  }
+}
+
+function isValidEmail(email) {
+  return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email);
+
+
+}
